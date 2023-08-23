@@ -23,6 +23,7 @@ import {
   IconX,
 } from "@tabler/icons-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { Player, Hls, Ui } from "@vime/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -71,31 +72,41 @@ const Page = () => {
       );
     },
     onSuccess: (data, variables, context) => {
+      clearFile();
       close();
       refetch();
       notifications.show({
         title: "We notify you that",
         color: "green",
-        autoClose: 5000,
+        autoClose: 7000,
         message: "Video upload task started",
       });
     },
   });
-
+  const hlsConfig = {
+    // ...
+  };
   const cards = data?.map((item: any, index: any) => (
     <Card key={index} shadow="sm" padding="md" radius="md" withBorder>
-      <Image
-        src={
-          item?.thumbnailUrl == null
-            ? "https://rfxllm.blob.core.windows.net/uploads/pngegg.png"
-            : item?.thumbnailUrl
-        }
-        alt={item?.fileName}
-        height={200}
-        fit="contain"
-        placeholder="https://rfxllm.blob.core.windows.net/uploads/pngegg.png"
-      />
-      {/* <video src={`${item?.videoBlobUrl}`} /> */}
+      {item?.twelvelabVideoUrl == null ? (
+        <Image
+          src={"https://rfxllm.blob.core.windows.net/uploads/pngegg.png"}
+          alt={item?.fileName}
+          height={200}
+          fit="contain"
+        />
+      ) : (
+        <Player controls>
+          <Hls version="latest" config={hlsConfig} poster={item?.thumbnail_url}>
+            <source
+              data-src={item?.twelvelabVideoUrl}
+              type="application/x-mpegURL"
+            />
+          </Hls>
+          <Ui></Ui>
+        </Player>
+      )}
+
       <Group mt={"lg"} justify="space-between">
         {item?.status == null ? (
           <></>
@@ -121,7 +132,10 @@ const Page = () => {
       <Modal
         pos={"relative"}
         opened={opened}
-        onClose={close}
+        onClose={() => {
+          close();
+          setFile(null);
+        }}
         title="Upload Video"
         size={"xl"}
         overlayProps={{

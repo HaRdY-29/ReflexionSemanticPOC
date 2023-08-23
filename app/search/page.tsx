@@ -127,17 +127,6 @@ export default function Page() {
             </Input.Wrapper>
           </form>
         </Grid.Col>
-        <Grid.Col span={2}>
-          {/* <Button
-            variant="filled"
-            type="submit"
-            color="blue"
-            mt={"0.5rem"}
-            leftSection={<IconSearch />}
-          >
-            Search
-          </Button> */}
-        </Grid.Col>
       </Grid>
       <Divider mb={"lg"}></Divider>
       <SimpleGrid cols={{ base: 1, sm: 2, lg: 4 }}>{cards}</SimpleGrid>

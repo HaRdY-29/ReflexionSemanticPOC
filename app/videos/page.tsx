@@ -32,7 +32,7 @@ const Page = () => {
     queryKey: ["allvideos"],
     queryFn: () =>
       axios
-        .get(`http://localhost:5112/api/Task/VideoTaks`)
+        .get(`https://reflexionllm.azurewebsites.net/api/Task/VideoTaks`)
         .then((res) => res.data),
   });
 
@@ -51,7 +51,9 @@ const Page = () => {
     refetchInterval: 10000,
     queryFn: () =>
       axios
-        .get(`http://localhost:5112/api/Task/videos/checkstatus`)
+        .get(
+          `https://reflexionllm.azurewebsites.net/api/Task/videos/checkstatus`
+        )
         .then((res) => res.data),
   });
   useEffect(() => {
@@ -63,7 +65,10 @@ const Page = () => {
     mutationFn: (file: File) => {
       var bodyFormData = new FormData();
       bodyFormData.append("file", file);
-      return axios.post("http://localhost:5112/api/Task/upload", bodyFormData);
+      return axios.post(
+        "https://reflexionllm.azurewebsites.net/api/Task/upload",
+        bodyFormData
+      );
     },
     onSuccess: (data, variables, context) => {
       close();

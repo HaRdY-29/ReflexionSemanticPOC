@@ -15,7 +15,9 @@ const Page = () => {
   const { isLoading, error, data, isFetching } = useQuery({
     queryKey: ["indexes"],
     queryFn: () =>
-      axios.get("http://localhost:5112/api/Task/Index").then((res) => res.data),
+      axios
+        .get("https://reflexionllm.azurewebsites.net/api/Task/Index")
+        .then((res) => res.data),
   });
 
   const cards = data?.map((item: any, index: any) => (
